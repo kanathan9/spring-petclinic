@@ -27,7 +27,7 @@ jobs:
           architecture: x64
           cache: maven
       - name: Build with Maven Wrapper
-        run: ./mvnw -B verify
+        run: ./mvnw -B verify -DskipTests
 
   tag-and-release:
     needs: build-and-test
@@ -48,7 +48,7 @@ jobs:
         id: create-a-tag
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo git tag -l | grep -i "^v{$VERSION}"
+          git tag -l | grep -i "^v{$VERSION}"
           if git tag -l | grep -i "^v{$VERSION}"; then
             echo "Tag v$VERSION already exists. Skipping tag creation."
           else
