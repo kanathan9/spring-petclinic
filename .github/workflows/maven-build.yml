@@ -58,7 +58,7 @@ jobs:
           fi
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.create-a-tag.outputs.VERSION }}
         env:
