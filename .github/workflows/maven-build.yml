@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '17' ]
+        java: [ '21' ]
 
     steps:
       - uses: actions/checkout@v4
@@ -24,6 +24,7 @@ jobs:
         with:
           java-version: ${{matrix.java}}
           distribution: 'adopt'
+          architecture: x64
           cache: maven
       - name: Build with Maven Wrapper
         run: ./mvnw -B verify
