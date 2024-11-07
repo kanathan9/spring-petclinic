@@ -92,6 +92,8 @@ jobs:
       # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # Step 2: Install Heroku CLI
       - name: Install Heroku CLI
@@ -108,4 +110,5 @@ jobs:
       - name: Deploy to Heroku
         run: |
           git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/petclinic-cicd.git
+          git fetch --all --unshallow
           git push heroku main
