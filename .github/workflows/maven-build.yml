@@ -124,4 +124,5 @@ jobs:
       # Step 4: Deploy to Heroku
       - name: Deploy to Heroku
         run: |
+          heroku plugins:install java
           heroku deploy:jar target/*.jar --app petclinic-cicd
