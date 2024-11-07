@@ -110,5 +110,4 @@ jobs:
       - name: Deploy to Heroku
         run: |
           git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/petclinic-cicd.git
-          git fetch --all --unshallow
           git push heroku main
