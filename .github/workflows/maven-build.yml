@@ -48,7 +48,7 @@ jobs:
         id: create-a-tag
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          if git tag -l | grep -q "^v$VERSION$"; then
+          if git tag -l | grep -i "^v$VERSION$"; then
             echo "Tag v$VERSION already exists. Skipping tag creation."
           else
             git tag -a "v$VERSION" -m "Release v$VERSION"
@@ -58,11 +58,14 @@ jobs:
           fi
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.create-a-tag.outputs.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build with Maven Wrapper
+        run: ./mvnw -B package -DskipTests
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -85,7 +88,8 @@ jobs:
 
       # Step 3: Login to Heroku
       - name: Login to Heroku
-        run: heroku auth:token
+        run: |
+          echo "$HEROKU_API_KEY" | heroku auth:token
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
