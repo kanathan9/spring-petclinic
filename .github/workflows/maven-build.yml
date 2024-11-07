@@ -45,6 +45,7 @@ jobs:
 
       # Step 2: Create a tag
       - name: Create a tag
+        id: create-a-tag
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           if git tag -l | grep -q "^v$VERSION$"; then
@@ -53,12 +54,13 @@ jobs:
             git tag -a "v$VERSION" -m "Release v$VERSION"
             git push origin "v$VERSION"
             echo "Tag v$VERSION created and pushed."
+            echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ steps.tag-and-release.outputs.VERSION }}
+          tag_name: v${{ steps.create-a-tag.outputs.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
