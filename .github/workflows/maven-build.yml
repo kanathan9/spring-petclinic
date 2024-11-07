@@ -48,6 +48,7 @@ jobs:
         id: create-a-tag
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo git tag -l | grep -i "^v{$VERSION}"
           if git tag -l | grep -i "^v{$VERSION}"; then
             echo "Tag v$VERSION already exists. Skipping tag creation."
           else
