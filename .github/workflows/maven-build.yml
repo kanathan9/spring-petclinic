@@ -101,7 +101,8 @@ jobs:
       # Step 3: Login to Heroku
       - name: Login to Heroku
         run: |
-          echo "$HEROKU_API_KEY" | heroku auth:token
+          echo "$HEROKU_API_KEY" 
+          heroku auth:token
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
