@@ -38,6 +38,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set Git user identity
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
       # Step 2: Create a tag
       - name: Create a tag
         run: |
